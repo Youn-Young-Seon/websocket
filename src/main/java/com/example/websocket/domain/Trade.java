@@ -1,6 +1,7 @@
 package com.example.websocket.domain;
 
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -9,6 +10,7 @@ import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 
 @Getter
+@Slf4j
 @Component
 public class Trade implements TradeInterface {
     private List<TradeStock> tradeStock = new ArrayList<>();
@@ -16,13 +18,10 @@ public class Trade implements TradeInterface {
     private Condition buyCondition = lock.newCondition();
     private Condition sellCondition = lock.newCondition();
 
-    @Override
-    public void buy() {
-
-    }
 
     @Override
-    public void sell() {
-
+    public TradeStock executeTrade(TradeStock tradeStock) {
+        log.info("{}", tradeStock);
+        return null;
     }
 }

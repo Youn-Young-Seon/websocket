@@ -1,24 +1,26 @@
 package com.example.websocket.api;
 
-import com.example.websocket.domain.Trade;
+import com.example.websocket.dto.TradeStockDto;
 import com.example.websocket.service.TradeService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Controller;
 
-@RestController
-public class TradeRestController {
+@Slf4j
+@Controller
+public class TradeController {
     private final TradeService tradeService;
 
-    public TradeRestController(TradeService tradeService) {
+    public TradeController(TradeService tradeService) {
         this.tradeService = tradeService;
     }
 
     @MessageMapping("/trade")
     @SendTo("/topic/trade")
-    public ResponseEntity<Trade> tradeStock() {
-        Trade trade = new Trade();
-        return ResponseEntity.ok(trade);
+    public ResponseEntity<TradeStockDto> tradeStock(TradeStockDto tradeStockDto) {
+        tradeService.getTrade(tradeStockDto);
+        return ResponseEntity.ok(tradeStockDto);
     }
 }
