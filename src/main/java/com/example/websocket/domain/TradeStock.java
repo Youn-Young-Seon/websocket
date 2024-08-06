@@ -13,18 +13,28 @@ import java.util.List;
 @ToString
 public class TradeStock {
     private TradeEnum tradeType;
-    private final List<Stock> stocks = new ArrayList<>();
+    private List<Stock> stocks = new ArrayList<>();
     private Customer customer;
 
-    private TradeStock(TradeEnum tradeType, List<StockDto> stockDtos, Customer customer) {
+    private TradeStock(TradeEnum tradeType, List<StockDto> stockDtos, String customer) {
         this.tradeType = tradeType;
         for (StockDto stockDto : stockDtos) {
             this.stocks.add(Stock.toStock(stockDto));
         }
+        this.customer = new Customer(customer);
+    }
+
+    private TradeStock(TradeEnum tradeType, List<Stock> stocks, Customer customer) {
+        this.tradeType = tradeType;
+        this.stocks = stocks;
         this.customer = customer;
     }
 
-    public static TradeStock toTradeStock(TradeStockDto tradeStockDto, Customer customer) {
-        return new TradeStock(tradeStockDto.getTradeType(), tradeStockDto.getStocks(), customer);
+    public static TradeStock of(TradeEnum tradeType, List<Stock> stocks, Customer customer) {
+        return new TradeStock(tradeType, stocks, customer);
+    }
+
+    public static TradeStock toTradeStock(TradeStockDto tradeStockDto) {
+        return new TradeStock(tradeStockDto.getTradeType(), tradeStockDto.getStocks(), tradeStockDto.getCustomer());
     }
 }

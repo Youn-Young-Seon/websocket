@@ -1,5 +1,6 @@
 package com.example.websocket.domain;
 
+import com.example.websocket.enums.TradeEnum;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -11,38 +12,40 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 @ToString
-public class Customer implements CustomerInterface {
+public class Customer {
     private String name;
     private BigDecimal account;
     private List<Stock> haveStock = new ArrayList<>();
-    private List<Stock> buyStock = new ArrayList<>();
-    private List<Stock> sellStock = new ArrayList<>();
 
     public Customer(String name) {
         this.name = name;
     }
 
-    public Customer(String name, BigDecimal account) {
+    public Customer(String name, BigDecimal account, List<Stock> haveStock) {
         this(name);
         this.account = account;
+        this.haveStock = haveStock;
     }
 
     public static Customer ofName(String name) {
         return new Customer(name);
     }
 
-    public static Customer ofNameAndAccount(String name, BigDecimal account) {
-        return new Customer(name, account);
+    public static Customer ofNameAndAccountAndStock(String name, BigDecimal account, List<Stock> haveStock) {
+        return new Customer(name, account, haveStock);
     }
 
-    @Override
-    public void buy() {
+    public void tradeStocks(TradeStock tradeStock, List<TradeStock> tradeStockList) {
+        if (tradeStockList.isEmpty()) {
+            tradeStockList.add(tradeStock);
+            return;
+        }
 
-    }
+        if (tradeStock.getTradeType().equals(TradeEnum.BUY)) {
 
-    @Override
-    public void sell() {
+        } else if(tradeStock.getTradeType().equals(TradeEnum.SELL)){
 
+        }
     }
 
     public Long investmentMoney() {

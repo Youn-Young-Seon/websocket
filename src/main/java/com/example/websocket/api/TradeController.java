@@ -8,6 +8,8 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
 
+import java.util.List;
+
 @Slf4j
 @Controller
 public class TradeController {
@@ -19,8 +21,8 @@ public class TradeController {
 
     @MessageMapping("/trade")
     @SendTo("/topic/trade")
-    public ResponseEntity<TradeStockDto> tradeStock(TradeStockDto tradeStockDto) {
-        tradeService.getTrade(tradeStockDto);
-        return ResponseEntity.ok(tradeStockDto);
+    public ResponseEntity<List<TradeStockDto>> tradeStock(TradeStockDto tradeStockDto) {
+        List<TradeStockDto> tradeDto = tradeService.getTrade(tradeStockDto);
+        return ResponseEntity.ok(tradeDto);
     }
 }
