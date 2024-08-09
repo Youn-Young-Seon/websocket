@@ -16,8 +16,8 @@ public class BoxController {
 
     @MessageMapping("/fill")
 //    @SendTo("/box/fill")
-    public ResponseEntity<BoxTaskDto> boxFill(BoxTaskDto boxTaskDto) {
-        BoxTaskDto execute = boxFill.execute(boxTaskDto);
-        return ResponseEntity.ok(execute);
+    public ResponseEntity<String> boxFill(BoxTaskDto boxTaskDto) {
+        boxFill.execute(boxTaskDto);
+        return ResponseEntity.ok("ok");
     }
 }

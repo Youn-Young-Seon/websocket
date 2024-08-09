@@ -9,19 +9,17 @@ import java.util.List;
 
 @Getter
 public class BoxTask {
+    private Integer idx;
     private BoxTaskEnum boxTaskType;
     private List<Box> boxes = new ArrayList<>();
 
-    private BoxTask(BoxTaskEnum boxTaskType, List<Box> boxes) {
+    public BoxTask(Integer idx, BoxTaskEnum boxTaskType, List<Box> boxes) {
+        this.idx = idx;
         this.boxTaskType = boxTaskType;
         this.boxes = boxes;
     }
 
     public static BoxTask toBoxTask(BoxTaskDto boxTaskDto) {
-        return new BoxTask(boxTaskDto.getBoxTaskType(), boxTaskDto.getBoxes());
-    }
-
-    public BoxTask executeBoxFill() {
-        return null;
+        return new BoxTask(boxTaskDto.getIdx(), boxTaskDto.getBoxTaskType(), boxTaskDto.getBoxes());
     }
 }
