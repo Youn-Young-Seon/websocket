@@ -25,10 +25,9 @@ public class BoxFill {
         BoxTask boxTask = BoxTask.toBoxTask(boxTaskDto);
         lock.lock();
         try {
-            if (queue.size() > 2) condition.await();
             queue.offer(boxTask);
-            new Thread(new BoxFillThread(boxTask, template, queue)).start();
-            if (queue.isEmpty()) condition.signal();
+            if (queue.size() > 2) condition.await();
+            new Thread(new BoxFillThread(boxTask, template, queue, lock, condition)).start();
         } catch (Exception e) {
             throw new RuntimeException(e);
         } finally {
