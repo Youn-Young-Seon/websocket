@@ -31,12 +31,12 @@ public class BoxFill {
         BoxTask boxTask = BoxTask.toBoxTask(boxTaskDto);
         lock.lock();
         try {
-            while (queue.size() >= 2) {
+            while (queue.size() >= 4) {
 //                condition.await();
                 long timeout = TimeUnit.MILLISECONDS.toNanos(second);
                 long remainTime = timeout;
 
-                while (queue.size() >= 2 && remainTime > 0) {
+                while (queue.size() >= 4 && remainTime > 0) {
                     remainTime = condition.awaitNanos(remainTime);
 
                     if (remainTime <= 0) {
