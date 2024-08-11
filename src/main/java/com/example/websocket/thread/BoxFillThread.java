@@ -18,15 +18,15 @@ public class BoxFillThread implements Runnable {
     private final Queue<BoxTask> queue;
     private final Lock lock;
     private final Condition condition;
+    private final int second;
 
-    private final int second = new Random().nextInt(4) * 1000;
-
-    public BoxFillThread(BoxTask boxTask, SimpMessagingTemplate template, Queue<BoxTask> queue, Lock lock, Condition condition) {
+    public BoxFillThread(BoxTask boxTask, SimpMessagingTemplate template, Queue<BoxTask> queue, Lock lock, Condition condition, int second) {
         this.boxTask = boxTask;
         this.template = template;
         this.queue = queue;
         this.lock = lock;
         this.condition = condition;
+        this.second = second;
     }
 
     @Override
