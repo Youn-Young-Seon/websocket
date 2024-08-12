@@ -8,7 +8,6 @@ import com.example.websocket.utils.ThreadSleep;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 
 import java.util.Queue;
-import java.util.Random;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 
@@ -19,6 +18,8 @@ public class BoxFillThread implements Runnable {
     private final Lock lock;
     private final Condition condition;
     private final int second;
+
+    private boolean isRunning = true;
 
     public BoxFillThread(BoxTask boxTask, SimpMessagingTemplate template, Queue<BoxTask> queue, Lock lock, Condition condition, int second) {
         this.boxTask = boxTask;
@@ -31,7 +32,7 @@ public class BoxFillThread implements Runnable {
 
     @Override
     public void run() {
-        while (true) {
+        while (isRunning) {
             boxTask.getBoxes().forEach(task -> {
                 task.setFill(true);
                 ThreadSleep.sleep(second);
@@ -49,6 +50,7 @@ public class BoxFillThread implements Runnable {
                 try {
                     queue.poll();
                     condition.signal();
+                    isRunning = false;
                 } finally {
                     lock.unlock();
                 }
